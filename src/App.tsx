@@ -251,7 +251,7 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
 const UserFormula = ({stakingMultiplier, lan}) => {
     const [state, setState] = useState({
         total: 20000,
-        score: 0.95,
+        score: 9.5,
         res: 0
     })
 
@@ -263,7 +263,7 @@ const UserFormula = ({stakingMultiplier, lan}) => {
     };
 
     const handleSubmit = () => {
-        const res = getUserEveryDayIncome(state.score, state.total, stakingMultiplier)
+        const res = getUserEveryDayIncome(divide(state.score,10), state.total, stakingMultiplier)
 
         setState({...state, res})
     }
