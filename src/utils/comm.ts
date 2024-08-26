@@ -19,7 +19,7 @@ export const divide = (n1: string | number, n2: string | number): number => {
 export const toThousands = (num: string | number) => {
     const tNum = Number(num).toFixed(4)
 
-    if (Number(tNum) === 0) return '0'
+    if (Number(tNum) === 0 || Number(tNum) === Infinity || Number(tNum) === -Infinity) return '0'
 
     const tag = (tNum || 0).toString().split('.')
     tag[0] = tag[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')

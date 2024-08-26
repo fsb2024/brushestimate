@@ -107,9 +107,9 @@ const TokenPledgeFormula = ({stakingMultiplier, setStakingMultiplier, lan}) => {
             </Button>
             <div className="res">
                 <h4>{locales[lan]['CalculateRes']}</h4>
-                <p>{locales[lan]['tokenRes1']}：<span>{toThousands(state.res)}</span></p>
-                <p>{locales[lan]['tokenRes2']}：<span>{toThousands(multiply(state.annualRate, 100))}</span>%</p>
-                <p>{locales[lan]['tokenRes3']}：<span>{toThousands(stakingMultiplier)}</span></p>
+                <p>{locales[lan]['tokenRes1']}：<span>{toThousands(state.res || 0)}</span></p>
+                <p>{locales[lan]['tokenRes2']}：<span>{toThousands(multiply(state.annualRate|| 0, 100))}</span>%</p>
+                <p>{locales[lan]['tokenRes3']}：<span>{toThousands(stakingMultiplier|| 0)}</span></p>
             </div>
         </div>
     )
@@ -238,10 +238,10 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
             </Button>
             <div className="res">
                 <h4>{locales[lan]['CalculateRes']}</h4>
-                <p>{locales[lan]['deviceRes1']}：<span>{toThousands(state.res)}</span></p>
-                <p>{locales[lan]['deviceRes2']}：<span>{toThousands(state.nodeGrowth)}</span></p>
-                <p>{locales[lan]['deviceRes3']}：<span>{toThousands(state.nodeGrowthMultiplier)}</span></p>
-                <p>{locales[lan]['deviceRes4']}：<span>{toThousands(state.lastRes)}</span></p>
+                <p>{locales[lan]['deviceRes1']}：<span>{toThousands(state.res || 0)}</span></p>
+                <p>{locales[lan]['deviceRes2']}：<span>{toThousands(state.nodeGrowth || 0)}</span></p>
+                <p>{locales[lan]['deviceRes3']}：<span>{toThousands(state.nodeGrowthMultiplier|| 0)}</span></p>
+                <p>{locales[lan]['deviceRes4']}：<span>{toThousands(state.lastRes || 0)}</span></p>
             </div>
             <p>{locales[lan]['deviceResHelp']}</p>
         </div>
@@ -311,7 +311,7 @@ const UserFormula = ({stakingMultiplier, lan}) => {
             </Button>
             <div className="res">
                 <h4>{locales[lan]['CalculateRes']}</h4>
-                <p>{locales[lan]['userRes1']}：<span>{toThousands(state.res)}</span></p>
+                <p>{locales[lan]['userRes1']}：<span>{toThousands(state.res || 0)}</span></p>
             </div>
         </div>
     )
