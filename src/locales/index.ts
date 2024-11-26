@@ -30,7 +30,7 @@ export default {
         userLabel1:'Total number of toothbrushes on the platform',
         userLabel1Help:'The more people use a toothbrush, the less each person gets.',
         userLabel2:'Brushing score',
-        userLabel2Help:'Remarks: The maximum score is 10 point',
+        userLabel2Help:'Remarks: The maximum score is 100 point',
         userRes1: "Benefits of brushing your teeth every day",
     },
     tw: {
@@ -64,7 +64,7 @@ export default {
         userLabel1:'平台累計牙刷數',
         userLabel1Help:'使用牙刷的人數越多，每人個人分的就越少',
         userLabel2:'刷牙分數',
-        userLabel2Help:'備註：最高為10分',
+        userLabel2Help:'備註：最高為100分',
         userRes1: "每天刷牙收益",
     }
 }
