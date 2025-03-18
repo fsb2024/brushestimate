@@ -82,7 +82,7 @@ export const getUserEveryDayIncome = (score: number, total: number, stakingMulti
     res = multiply(res, ft)
     res = divide(res, totalUserScore)
     res = multiply(res, ac)
-    res = divide(res, Math.max(ac, 20000))
+    res = divide(res, Math.max(ac, 12000))
     res = multiply(res, at)
     res = multiply(res, lc)
 
