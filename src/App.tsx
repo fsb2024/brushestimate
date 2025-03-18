@@ -257,7 +257,7 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
 
 const UserFormula = ({stakingMultiplier, lan}) => {
     const [state, setState] = useState({
-        total: 20000,
+        total: 12000,
         score: 95,
         res: 0
     })
@@ -283,22 +283,22 @@ const UserFormula = ({stakingMultiplier, lan}) => {
         <div>
             <h3 className="text-center">{locales[lan]['userTitle']}</h3>
             {/*<p>{locales[lan]['userDesc']}</p>*/}
-            <TextField
-                className="mb-20"
-                label={locales[lan]['userLabel1']}
-                name="total"
-                variant="outlined"
-                helperText={locales[lan]['userLabel1Help']}
-                InputProps={{
-                    inputComponent: NumberFormatCustom,
-                }}
-                InputLabelProps={{
-                    shrink: true
-                }}
-                value={state.total}
-                onChange={handleChange}
-                fullWidth
-            />
+            {/*<TextField*/}
+            {/*    className="mb-20"*/}
+            {/*    label={locales[lan]['userLabel1']}*/}
+            {/*    name="total"*/}
+            {/*    variant="outlined"*/}
+            {/*    helperText={locales[lan]['userLabel1Help']}*/}
+            {/*    InputProps={{*/}
+            {/*        inputComponent: NumberFormatCustom,*/}
+            {/*    }}*/}
+            {/*    InputLabelProps={{*/}
+            {/*        shrink: true*/}
+            {/*    }}*/}
+            {/*    value={state.total}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    fullWidth*/}
+            {/*/>*/}
             <TextField
                 className="mb-20"
                 label={locales[lan]['userLabel2']}
