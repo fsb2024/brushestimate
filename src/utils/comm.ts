@@ -62,7 +62,7 @@ export const getDeviceIncome = (day7total: number, day7NodeActivation: number, s
 
     const r1 = divide(multiply(y, 0.3), 365)
     const r2 = divide(add(27, Math.log10(a)), 30)
-    const r3 = divide(1, Math.max(divide(d, 5), 800))
+    const r3 = divide(1, Math.max(divide(d, 5), 300))
     const r4 = multiply(multiply(x, lc), g)
 
     return multiply(multiply(multiply(r1, r2), r3), r4)

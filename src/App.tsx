@@ -15,7 +15,7 @@ import {
     toThousands
 } from "./utils/comm";
 import locales from "./locales";
-import {useKey} from 'react-use';
+import {useKey, useMount} from 'react-use';
 
 const NumberFormatCustom = (props) => {
     const {inputRef, onChange, ...other} = props;
@@ -117,7 +117,7 @@ const TokenPledgeFormula = ({stakingMultiplier, setStakingMultiplier, lan}) => {
 
 const DeviceFormula = ({stakingMultiplier, lan}) => {
     const [state, setState] = useState({
-        day7total: 2500,
+        day7total: 500,
         stocking: 500,
         stockActivation: 500,
         recommendedActivation: 500,
@@ -125,7 +125,8 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
         res: 0,
         lastRes: 0,
         nodeGrowth: 0,
-        nodeGrowthMultiplier: 0
+        nodeGrowthMultiplier: 0,
+        estimated: 0
     })
 
     const handleChange = (event) => {
@@ -148,31 +149,36 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
             add(add(multiply(lastTu180, 0.05), multiply(lastTu180, 0.03)), multiply(lastTu180, 0.01)),
             multiply(multiply(1, stakingMultiplier), nodeGrowthMultiplier))
 
-        setState({...state, res, nodeGrowth, nodeGrowthMultiplier, lastRes})
+        const estimated = multiply(res,add(state.stocking,state.stockActivation))
+
+        setState({...state, res, nodeGrowth, nodeGrowthMultiplier, lastRes, estimated})
     }
 
     useKey('Enter', handleSubmit, {}, [handleSubmit]);
 
+    useMount(handleSubmit)
+
+
     return (
         <div>
             <h3 className="text-center">{locales[lan]['deviceTitle']}</h3>
-            <p>{locales[lan]['deviceDesc']}</p>
-            <TextField
-                className="mb-20"
-                label={locales[lan]['deviceLabel1']}
-                name="day7total"
-                variant="outlined"
-                helperText={locales[lan]['deviceLabel1Help']}
-                InputProps={{
-                    inputComponent: NumberFormatCustom,
-                }}
-                InputLabelProps={{
-                    shrink: true
-                }}
-                value={state.day7total}
-                onChange={handleChange}
-                fullWidth
-            />
+            {/*<p>{locales[lan]['deviceDesc']}</p>*/}
+            {/*<TextField*/}
+            {/*    className="mb-20"*/}
+            {/*    label={locales[lan]['deviceLabel1']}*/}
+            {/*    name="day7total"*/}
+            {/*    variant="outlined"*/}
+            {/*    helperText={locales[lan]['deviceLabel1Help']}*/}
+            {/*    InputProps={{*/}
+            {/*        inputComponent: NumberFormatCustom,*/}
+            {/*    }}*/}
+            {/*    InputLabelProps={{*/}
+            {/*        shrink: true*/}
+            {/*    }}*/}
+            {/*    value={state.day7total}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    fullWidth*/}
+            {/*/>*/}
             <TextField
                 className="mb-20"
                 label={locales[lan]['deviceLabel2']}
@@ -239,8 +245,9 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
             <div className="res">
                 <h4>{locales[lan]['CalculateRes']}</h4>
                 <p>{locales[lan]['deviceRes1']}：<span>{toThousands(state.res || 0)}</span></p>
-                <p>{locales[lan]['deviceRes2']}：<span>{toThousands(state.nodeGrowth || 0)}</span></p>
-                <p>{locales[lan]['deviceRes3']}：<span>{toThousands(state.nodeGrowthMultiplier|| 0)}</span></p>
+                {/*<p>{locales[lan]['deviceRes2']}：<span>{toThousands(state.nodeGrowth || 0)}</span></p>*/}
+                {/*<p>{locales[lan]['deviceRes3']}：<span>{toThousands(state.nodeGrowthMultiplier|| 0)}</span></p>*/}
+                <p>{locales[lan]['deviceRes5']}：<span>{toThousands(state.estimated || 0)}</span></p>
                 <p>{locales[lan]['deviceRes4']}：<span>{toThousands(state.lastRes || 0)}</span></p>
             </div>
             <p>{locales[lan]['deviceResHelp']}</p>
@@ -270,10 +277,12 @@ const UserFormula = ({stakingMultiplier, lan}) => {
 
     useKey('Enter', handleSubmit, {}, [handleSubmit]);
 
+    useMount(handleSubmit)
+
     return (
         <div>
             <h3 className="text-center">{locales[lan]['userTitle']}</h3>
-            <p>{locales[lan]['userDesc']}</p>
+            {/*<p>{locales[lan]['userDesc']}</p>*/}
             <TextField
                 className="mb-20"
                 label={locales[lan]['userLabel1']}
@@ -343,15 +352,17 @@ function App() {
             </div>
             <h2 className="text-center">{locales[lan]['title']}</h2>
             <p className="text-center">{locales[lan]['desc']}</p>
-            <TokenPledgeFormula
-                stakingMultiplier={stakingMultiplierRef.current}
-                setStakingMultiplier={onChangeStakingMultiplier}
-                lan={lan}
-            />
-            <Divider style={{margin: '50px 0'}}/>
-            <DeviceFormula stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
-            <Divider style={{margin: '50px 0'}}/>
+            {/*<TokenPledgeFormula*/}
+            {/*    stakingMultiplier={stakingMultiplierRef.current}*/}
+            {/*    setStakingMultiplier={onChangeStakingMultiplier}*/}
+            {/*    lan={lan}*/}
+            {/*/>*/}
+            {/*<Divider style={{margin: '50px 0'}}/>*/}
+
             <UserFormula stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
+            <Divider style={{margin: '50px 0'}}/>
+
+            <DeviceFormula stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
         </>
     )
 }
