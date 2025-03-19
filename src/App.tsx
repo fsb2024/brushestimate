@@ -120,8 +120,8 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
         day7total: 500,
         stocking: 500,
         stockActivation: 500,
-        recommendedActivation: 500,
-        day7NodeActivation: 125,
+        recommendedActivation: 1,
+        day7NodeActivation: 100,
         res: 0,
         lastRes: 0,
         nodeGrowth: 0,
@@ -209,6 +209,145 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
                 onChange={handleChange}
                 fullWidth
             />
+            {/*<TextField*/}
+            {/*    className="mb-20"*/}
+            {/*    label={locales[lan]['deviceLabel4']}*/}
+            {/*    name="recommendedActivation"*/}
+            {/*    variant="outlined"*/}
+            {/*    InputProps={{*/}
+            {/*        inputComponent: NumberFormatCustom,*/}
+            {/*    }}*/}
+            {/*    InputLabelProps={{*/}
+            {/*        shrink: true*/}
+            {/*    }}*/}
+            {/*    value={state.recommendedActivation}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    fullWidth*/}
+            {/*/>*/}
+            {/*<TextField*/}
+            {/*    className="mb-20"*/}
+            {/*    label={locales[lan]['deviceLabel5']}*/}
+            {/*    name="day7NodeActivation"*/}
+            {/*    variant="outlined"*/}
+            {/*    InputProps={{*/}
+            {/*        inputComponent: NumberFormatCustom,*/}
+            {/*    }}*/}
+            {/*    InputLabelProps={{*/}
+            {/*        shrink: true*/}
+            {/*    }}*/}
+            {/*    value={state.day7NodeActivation}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    fullWidth*/}
+            {/*/>*/}
+            <Button variant="contained" color="primary" fullWidth onClick={handleSubmit} disableElevation>
+                {locales[lan]['Calculate']}
+            </Button>
+            <div className="res">
+                <h4>{locales[lan]['CalculateRes']}</h4>
+                <p>{locales[lan]['deviceRes1']}: <b>{toThousands(state.res || 0)}</b></p>
+                {/*<p>{locales[lan]['deviceRes2']}: <b>{toThousands(state.nodeGrowth || 0)}</b></p>*/}
+                {/*<p>{locales[lan]['deviceRes3']}: <b>{toThousands(state.nodeGrowthMultiplier|| 0)}</b></p>*/}
+                <p>{locales[lan]['deviceRes5']}: <b>{toThousands(state.estimated || 0)}</b></p>
+                <p>{locales[lan]['deviceRes4']}: <b>{toThousands(state.lastRes || 0)}</b></p>
+            </div>
+            <p>{locales[lan]['deviceResHelp']}</p>
+        </div>
+    )
+}
+const DeviceFormula2 = ({stakingMultiplier, lan}) => {
+    const [state, setState] = useState({
+        day7total: 1,
+        stocking: 1,
+        stockActivation: 1,
+        recommendedActivation: 500,
+        day7NodeActivation: 100,
+        res: 0,
+        lastRes: 0,
+        nodeGrowth: 0,
+        nodeGrowthMultiplier: 0,
+        estimated: 0
+    })
+
+    const handleChange = (event) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.value,
+        });
+    };
+
+    const handleSubmit = () => {
+        const nodeGrowth = getNodeGrowth(state.stocking, state.stockActivation, state.recommendedActivation)
+        const nodeGrowthMultiplier = getNodeGrowthMultiplier(nodeGrowth)
+
+        const res = getDeviceIncome(state.day7total, state.day7NodeActivation, stakingMultiplier, nodeGrowthMultiplier)
+
+        const deviceNum = add(state.stockActivation, state.recommendedActivation)
+        const lastTu180 = multiply(deviceNum, getUserEveryDayIncome(0.8, deviceNum, stakingMultiplier))
+
+        const lastRes = multiply(
+            add(add(multiply(lastTu180, 0.05), multiply(lastTu180, 0.03)), multiply(lastTu180, 0.01)),
+            multiply(multiply(1, stakingMultiplier), nodeGrowthMultiplier))
+
+        const estimated = multiply(res,add(state.stocking,state.stockActivation))
+
+        setState({...state, res, nodeGrowth, nodeGrowthMultiplier, lastRes, estimated})
+    }
+
+    useKey('Enter', handleSubmit, {}, [handleSubmit]);
+
+    useMount(handleSubmit)
+
+
+    return (
+        <div>
+            <h3 className="text-center">{locales[lan]['onlineTitle']}</h3>
+            {/*<p>{locales[lan]['deviceDesc']}</p>*/}
+            {/*<TextField*/}
+            {/*    className="mb-20"*/}
+            {/*    label={locales[lan]['deviceLabel1']}*/}
+            {/*    name="day7total"*/}
+            {/*    variant="outlined"*/}
+            {/*    helperText={locales[lan]['deviceLabel1Help']}*/}
+            {/*    InputProps={{*/}
+            {/*        inputComponent: NumberFormatCustom,*/}
+            {/*    }}*/}
+            {/*    InputLabelProps={{*/}
+            {/*        shrink: true*/}
+            {/*    }}*/}
+            {/*    value={state.day7total}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    fullWidth*/}
+            {/*/>*/}
+            {/*<TextField*/}
+            {/*    className="mb-20"*/}
+            {/*    label={locales[lan]['deviceLabel2']}*/}
+            {/*    name="stocking"*/}
+            {/*    variant="outlined"*/}
+            {/*    InputProps={{*/}
+            {/*        inputComponent: NumberFormatCustom,*/}
+            {/*    }}*/}
+            {/*    InputLabelProps={{*/}
+            {/*        shrink: true*/}
+            {/*    }}*/}
+            {/*    value={state.stocking}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    fullWidth*/}
+            {/*/>*/}
+            {/*<TextField*/}
+            {/*    className="mb-20"*/}
+            {/*    label={locales[lan]['deviceLabel3']}*/}
+            {/*    name="stockActivation"*/}
+            {/*    variant="outlined"*/}
+            {/*    InputProps={{*/}
+            {/*        inputComponent: NumberFormatCustom,*/}
+            {/*    }}*/}
+            {/*    InputLabelProps={{*/}
+            {/*        shrink: true*/}
+            {/*    }}*/}
+            {/*    value={state.stockActivation}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    fullWidth*/}
+            {/*/>*/}
             <TextField
                 className="mb-20"
                 label={locales[lan]['deviceLabel4']}
@@ -224,31 +363,31 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
                 onChange={handleChange}
                 fullWidth
             />
-            <TextField
-                className="mb-20"
-                label={locales[lan]['deviceLabel5']}
-                name="day7NodeActivation"
-                variant="outlined"
-                InputProps={{
-                    inputComponent: NumberFormatCustom,
-                }}
-                InputLabelProps={{
-                    shrink: true
-                }}
-                value={state.day7NodeActivation}
-                onChange={handleChange}
-                fullWidth
-            />
+            {/*<TextField*/}
+            {/*    className="mb-20"*/}
+            {/*    label={locales[lan]['deviceLabel5']}*/}
+            {/*    name="day7NodeActivation"*/}
+            {/*    variant="outlined"*/}
+            {/*    InputProps={{*/}
+            {/*        inputComponent: NumberFormatCustom,*/}
+            {/*    }}*/}
+            {/*    InputLabelProps={{*/}
+            {/*        shrink: true*/}
+            {/*    }}*/}
+            {/*    value={state.day7NodeActivation}*/}
+            {/*    onChange={handleChange}*/}
+            {/*    fullWidth*/}
+            {/*/>*/}
             <Button variant="contained" color="primary" fullWidth onClick={handleSubmit} disableElevation>
                 {locales[lan]['Calculate']}
             </Button>
             <div className="res">
                 <h4>{locales[lan]['CalculateRes']}</h4>
-                <p>{locales[lan]['deviceRes1']}：<span>{toThousands(state.res || 0)}</span></p>
-                {/*<p>{locales[lan]['deviceRes2']}：<span>{toThousands(state.nodeGrowth || 0)}</span></p>*/}
-                {/*<p>{locales[lan]['deviceRes3']}：<span>{toThousands(state.nodeGrowthMultiplier|| 0)}</span></p>*/}
-                <p>{locales[lan]['deviceRes5']}：<span>{toThousands(state.estimated || 0)}</span></p>
-                <p>{locales[lan]['deviceRes4']}：<span>{toThousands(state.lastRes || 0)}</span></p>
+                <p>{locales[lan]['deviceRes1']}: <b>{toThousands(state.res || 0)}</b></p>
+                {/*<p>{locales[lan]['deviceRes2']}: <b>{toThousands(state.nodeGrowth || 0)}</b></p>*/}
+                {/*<p>{locales[lan]['deviceRes3']}: <b>{toThousands(state.nodeGrowthMultiplier|| 0)}</b></p>*/}
+                <p>{locales[lan]['deviceRes5']}: <b>{toThousands(state.estimated || 0)}</b></p>
+                <p>{locales[lan]['deviceRes4']}: <b>{toThousands(state.lastRes || 0)}</b></p>
             </div>
             <p>{locales[lan]['deviceResHelp']}</p>
         </div>
@@ -320,7 +459,7 @@ const UserFormula = ({stakingMultiplier, lan}) => {
             </Button>
             <div className="res">
                 <h4>{locales[lan]['CalculateRes']}</h4>
-                <p>{locales[lan]['userRes1']}：<span>{toThousands(state.res || 0)}</span></p>
+                <p>{locales[lan]['userRes1']}: <b>{toThousands(state.res || 0)}</b></p>
             </div>
         </div>
     )
@@ -363,6 +502,9 @@ function App() {
             <Divider style={{margin: '50px 0'}}/>
 
             <DeviceFormula stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
+            <Divider style={{margin: '50px 0'}}/>
+
+            <DeviceFormula2 stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
         </>
     )
 }
