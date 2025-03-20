@@ -15,7 +15,7 @@ import {
     toThousands
 } from "./utils/comm";
 import locales from "./locales";
-import {useKey, useMount} from 'react-use';
+import {useKey, useMount, useUpdateEffect} from 'react-use';
 
 const NumberFormatCustom = (props) => {
     const {inputRef, onChange, ...other} = props;
@@ -153,8 +153,9 @@ const DeviceFormula = ({stakingMultiplier, lan, dayIncome}) => {
 
     useKey('Enter', handleSubmit, {}, [handleSubmit]);
 
-    useMount(handleSubmit)
-
+    useUpdateEffect(() => {
+        handleSubmit()
+    }, [dayIncome])
 
     return (
         <div>
@@ -289,8 +290,9 @@ const DeviceFormula2 = ({stakingMultiplier, lan,dayIncome}) => {
 
     useKey('Enter', handleSubmit, {}, [handleSubmit]);
 
-    useMount(handleSubmit)
-
+    useUpdateEffect(() => {
+        handleSubmit()
+    }, [dayIncome])
 
     return (
         <div>
