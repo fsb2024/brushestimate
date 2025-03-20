@@ -48,7 +48,7 @@ export default {
         tokenRes1: "每天質押收益",
         tokenRes2: "年化報酬率",
         tokenRes3: "質押乘數",
-        deviceTitle: '节点奖励（囤货）',
+        deviceTitle: '節點獎勵（囤貨）',
         deviceDesc: '根據官方公布的信息，設備激活激勵每天釋放量約 1,175,342 （=1.43B*30%/365）',
         deviceLabel1: '前7天平臺所有激活設備總數',
         deviceLabel1Help: '總數越多，每個設備分得的激活激勵就少',

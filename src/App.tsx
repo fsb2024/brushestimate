@@ -146,8 +146,8 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
         const lastTu180 = multiply(deviceNum, getUserEveryDayIncome(0.8, deviceNum, stakingMultiplier))
 
         const lastRes = multiply(
-            add(add(multiply(lastTu180, 0.05), multiply(lastTu180, 0.03)), multiply(lastTu180, 0.01)),
-            multiply(multiply(1, stakingMultiplier), nodeGrowthMultiplier))
+            multiply(lastTu180, 0.05),
+            multiply(multiply(1, 1), nodeGrowthMultiplier))
 
         const estimated = multiply(res,add(state.stocking,state.stockActivation))
 
@@ -287,6 +287,8 @@ const DeviceFormula2 = ({stakingMultiplier, lan}) => {
         const lastRes = multiply(multiply(
             add(add(multiply(lastTu180, 0.05), multiply(lastTu180, 0.03)), multiply(lastTu180, 0.01)),
             multiply(multiply(1, stakingMultiplier), nodeGrowthMultiplier)),0.9)
+
+        console.log(stakingMultiplier,nodeGrowthMultiplier);
 
         const estimated = multiply(res,add(state.stocking,state.stockActivation))
 
