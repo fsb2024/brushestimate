@@ -108,19 +108,19 @@ const TokenPledgeFormula = ({stakingMultiplier, setStakingMultiplier, lan}) => {
             <div className="res">
                 <h4>{locales[lan]['CalculateRes']}</h4>
                 <p>{locales[lan]['tokenRes1']}：<span>{toThousands(state.res || 0)}</span></p>
-                <p>{locales[lan]['tokenRes2']}：<span>{toThousands(multiply(state.annualRate|| 0, 100))}</span>%</p>
-                <p>{locales[lan]['tokenRes3']}：<span>{toThousands(stakingMultiplier|| 0)}</span></p>
+                <p>{locales[lan]['tokenRes2']}：<span>{toThousands(multiply(state.annualRate || 0, 100))}</span>%</p>
+                <p>{locales[lan]['tokenRes3']}：<span>{toThousands(stakingMultiplier || 0)}</span></p>
             </div>
         </div>
     )
 }
 
-const DeviceFormula = ({stakingMultiplier, lan}) => {
+const DeviceFormula = ({stakingMultiplier, lan, dayIncome}) => {
     const [state, setState] = useState({
         day7total: 500,
         stocking: 500,
         stockActivation: 500,
-        recommendedActivation: 1,
+        recommendedActivation: 0,
         day7NodeActivation: 100,
         res: 0,
         lastRes: 0,
@@ -140,16 +140,13 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
         const nodeGrowth = getNodeGrowth(state.stocking, state.stockActivation, state.recommendedActivation)
         const nodeGrowthMultiplier = getNodeGrowthMultiplier(nodeGrowth)
 
-        const res = getDeviceIncome(state.day7total, state.day7NodeActivation, 1.17, nodeGrowthMultiplier)
+        const res = multiply(getDeviceIncome(state.day7total, state.day7NodeActivation, 1.17, nodeGrowthMultiplier), 0.8)
 
         const deviceNum = add(state.stockActivation, state.recommendedActivation)
-        const lastTu180 = multiply(deviceNum, getUserEveryDayIncome(0.8, deviceNum, stakingMultiplier))
 
-        const lastRes = multiply(
-            multiply(lastTu180, 0.05),
-            multiply(multiply(1, 1), nodeGrowthMultiplier))
+        const lastRes = multiply(multiply(dayIncome,deviceNum),0.05)
 
-        const estimated = multiply(res,add(state.stocking,state.stockActivation))
+        const estimated = multiply(res, add(state.stocking, state.stockActivation))
 
         setState({...state, res, nodeGrowth, nodeGrowthMultiplier, lastRes, estimated})
     }
@@ -254,11 +251,11 @@ const DeviceFormula = ({stakingMultiplier, lan}) => {
         </div>
     )
 }
-const DeviceFormula2 = ({stakingMultiplier, lan}) => {
+const DeviceFormula2 = ({stakingMultiplier, lan,dayIncome}) => {
     const [state, setState] = useState({
         day7total: 1,
         stocking: 1,
-        stockActivation: 1,
+        stockActivation: 0,
         recommendedActivation: 500,
         day7NodeActivation: 100,
         res: 0,
@@ -279,18 +276,13 @@ const DeviceFormula2 = ({stakingMultiplier, lan}) => {
         const nodeGrowth = getNodeGrowth(state.stocking, state.stockActivation, state.recommendedActivation)
         const nodeGrowthMultiplier = getNodeGrowthMultiplier(nodeGrowth)
 
-        const res = getDeviceIncome(state.day7total, state.day7NodeActivation, stakingMultiplier, nodeGrowthMultiplier)
+        const res = multiply(getDeviceIncome(state.day7total, state.day7NodeActivation, 1.17, nodeGrowthMultiplier), 0.8)
 
         const deviceNum = add(state.stockActivation, state.recommendedActivation)
-        const lastTu180 = multiply(deviceNum, getUserEveryDayIncome(0.8, deviceNum, stakingMultiplier))
 
-        const lastRes = multiply(multiply(
-            add(add(multiply(lastTu180, 0.05), multiply(lastTu180, 0.03)), multiply(lastTu180, 0.01)),
-            multiply(multiply(1, stakingMultiplier), nodeGrowthMultiplier)),0.9)
+        const lastRes = multiply(multiply(dayIncome,deviceNum),0.05)
 
-        console.log(stakingMultiplier,nodeGrowthMultiplier);
-
-        const estimated = multiply(res,add(state.stocking,state.stockActivation))
+        const estimated = multiply(res, add(state.stocking, state.stockActivation))
 
         setState({...state, res, nodeGrowth, nodeGrowthMultiplier, lastRes, estimated})
     }
@@ -396,7 +388,7 @@ const DeviceFormula2 = ({stakingMultiplier, lan}) => {
     )
 }
 
-const UserFormula = ({stakingMultiplier, lan}) => {
+const UserFormula = ({stakingMultiplier, lan, setDayIncome}) => {
     const [state, setState] = useState({
         total: 12000,
         score: 95,
@@ -411,9 +403,10 @@ const UserFormula = ({stakingMultiplier, lan}) => {
     };
 
     const handleSubmit = () => {
-        const res = getUserEveryDayIncome(divide(state.score,100), state.total, stakingMultiplier)
+        const res = getUserEveryDayIncome(divide(state.score, 100), state.total, stakingMultiplier)
 
         setState({...state, res})
+        setDayIncome(res)
     }
 
     useKey('Enter', handleSubmit, {}, [handleSubmit]);
@@ -470,10 +463,11 @@ const UserFormula = ({stakingMultiplier, lan}) => {
 function App() {
     const [lan, setLan] = useState('en')
     const [stakingMultiplier, setStakingMultiplier] = useState(1.03)
+    const [dayIncome, setDayIncome] = useState(0)
 
     const stakingMultiplierRef = useRef<number>(stakingMultiplier)
 
-    const onChangeStakingMultiplier = (value)=> {
+    const onChangeStakingMultiplier = (value) => {
         stakingMultiplierRef.current = value
         setStakingMultiplier(value)
     }
@@ -500,13 +494,13 @@ function App() {
             {/*/>*/}
             {/*<Divider style={{margin: '50px 0'}}/>*/}
 
-            <UserFormula stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
+            <UserFormula stakingMultiplier={stakingMultiplierRef.current} lan={lan} setDayIncome={setDayIncome}/>
             <Divider style={{margin: '50px 0'}}/>
 
-            <DeviceFormula stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
+            <DeviceFormula dayIncome={dayIncome} stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
             <Divider style={{margin: '50px 0'}}/>
 
-            <DeviceFormula2 stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
+            <DeviceFormula2 dayIncome={dayIncome} stakingMultiplier={stakingMultiplierRef.current} lan={lan}/>
         </>
     )
 }
