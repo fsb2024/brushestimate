@@ -257,7 +257,7 @@ const DeviceFormula2 = ({stakingMultiplier, lan,dayIncome}) => {
         day7total: 1,
         stocking: 1,
         stockActivation: 0,
-        recommendedActivation: 500,
+        recommendedActivation: 50,
         day7NodeActivation: 100,
         res: 0,
         lastRes: 0,
@@ -277,7 +277,7 @@ const DeviceFormula2 = ({stakingMultiplier, lan,dayIncome}) => {
         const nodeGrowth = getNodeGrowth(state.stocking, state.stockActivation, state.recommendedActivation)
         const nodeGrowthMultiplier = getNodeGrowthMultiplier(nodeGrowth)
 
-        const res = multiply(getDeviceIncome(state.day7total, state.day7NodeActivation, 1.17, nodeGrowthMultiplier), 0.8)
+        const res = multiply(getDeviceIncome(state.day7total, state.day7NodeActivation, 1, nodeGrowthMultiplier), 0.66)
 
         const deviceNum = add(state.stockActivation, state.recommendedActivation)
 
