@@ -70,7 +70,7 @@ export const getDeviceIncome = (day7total: number, day7NodeActivation: number, s
 
 
 export const getUserEveryDayIncome = (score: number, total: number, stakingMultiplier: number) => {
-    const fm = 23
+    const fm = 17
     const ft = score
     const ac = total
     const at = 1

@@ -117,9 +117,9 @@ const TokenPledgeFormula = ({stakingMultiplier, setStakingMultiplier, lan}) => {
 
 const DeviceFormula = ({stakingMultiplier, lan, dayIncome}) => {
     const [state, setState] = useState({
-        day7total: 500,
-        stocking: 500,
-        stockActivation: 500,
+        day7total: 50,
+        stocking: 50,
+        stockActivation: 50,
         recommendedActivation: 0,
         day7NodeActivation: 100,
         res: 0,
@@ -140,7 +140,7 @@ const DeviceFormula = ({stakingMultiplier, lan, dayIncome}) => {
         const nodeGrowth = getNodeGrowth(state.stocking, state.stockActivation, state.recommendedActivation)
         const nodeGrowthMultiplier = getNodeGrowthMultiplier(nodeGrowth)
 
-        const res = multiply(getDeviceIncome(state.day7total, state.day7NodeActivation, 1.17, nodeGrowthMultiplier), 0.8)
+        const res = multiply(getDeviceIncome(state.day7total, state.day7NodeActivation, 1, nodeGrowthMultiplier), 0.68)
 
         const deviceNum = add(state.stockActivation, state.recommendedActivation)
 
@@ -393,7 +393,7 @@ const DeviceFormula2 = ({stakingMultiplier, lan,dayIncome}) => {
 const UserFormula = ({stakingMultiplier, lan, setDayIncome}) => {
     const [state, setState] = useState({
         total: 12000,
-        score: 95,
+        score: 85,
         res: 0
     })
 
